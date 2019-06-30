@@ -1,0 +1,102 @@
+var finalize=function (key,redval){ 
+if(redval.years.length==1)
+{
+ switch(redval.years[0]){	
+ case "fe":
+  if(redval.fe>=25)
+   return "pass";
+  else
+   return "fail";
+  break;
+case "se":
+if(redval.se>=25)
+return "pass";
+else
+return "fail";
+break;
+case "te":
+if(redval.te>=23)
+return "pass";
+else
+return "fail";
+break;
+  case "be":
+   if(redval.be>=44)
+     return "pass";
+   else 
+    return "fail";
+   break;
+  }
+}else{
+if(redval.years.includes("fe")&&redval.years.includes("se"))
+ if(redval.se>=25&&redval.fe==50)
+    return "pass";
+  else
+    return "fail";
+  if(redval.years.includes("se")&&redval.years.includes("te"))
+ if(redval.se==50&&redval.te>=23)
+    return "pass";
+  else
+    return "fail";
+if(redval.years.includes("te")&&redval.years.includes("be"))
+ if(redval.te==46&&redval.be==44)
+    return "pass";
+  else
+    return "fail";
+}
+}
+
+
+//--------------------------------------------------
+var map=
+function (){
+var obj={
+	fe:0,
+	se:0,
+	te:0,
+	be:0,
+	years:[]
+}
+switch(this.year){
+	case "fe":
+	obj.fe=this.grade;
+	obj.years.push("fe");
+	break;
+	case "se":
+	obj.se=this.grade;
+	obj.years.push("se");
+	break;
+	case "te":
+	obj.te=this.grade;
+	obj.years.push("te");
+	break;
+	case "be":
+	obj.be=this.grade;
+	obj.years.push("be");
+	break;
+}
+emit(this.prn,obj);
+}
+//----------------------------------------------
+var reduce=function(name,objarr){
+var obj={
+	fe:0,
+	se:0,
+	te:0,
+	be:0,
+	years:[]
+}
+objarr.forEach(myFunction);
+
+function myFunction(value, index, array) {
+	obj.fe+=value.fe;
+	obj.se+=value.se;
+	obj.te+=value.te;
+	obj.be+=value.be;
+	obj.years=obj.years.concat(value.years);
+}
+ return obj;
+}
+
+
+
